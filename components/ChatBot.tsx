@@ -81,6 +81,26 @@ export default function ChatBot() {
     } as React.ChangeEvent<HTMLInputElement>);
   };
 
+  const formatResponse = (message: string) => {
+   let text = "This is a list: 1) I'm good 2) I'm a winner 3) I'm a developer 4) I'm handsome";
+  let pattern = /(.+?):\s*((?:\d+\)\s*[^0-9]+)*)/g;
+  let match;
+  let formattedText = "";
+
+  if (pattern.test(text)) {
+    while ((match = pattern.exec(text)) !== null) {
+      let prefix = match[1];
+      let listItems = match[2].trim().split(/\d+\)\s*/).filter(Boolean);
+      let formattedList = listItems.map((item, index) => `${index + 1}) ${item.trim()}`).join('\n');
+      formattedText += `${prefix}:\n${formattedList}\n`;
+    }
+  } else {
+    formattedText = text;
+  }
+
+return formattedText.trim()
+  }
+
   return (
     <div>
      
@@ -149,7 +169,7 @@ export default function ChatBot() {
                       : "bg-white text-black"
                   }`}
                 >
-                  {message.content}
+                  {formatResponse(message.content)}
                 </div>
               ))}
             </div>
