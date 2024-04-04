@@ -82,17 +82,21 @@ export default function ChatBot() {
   };
 
   const formatResponse = (message: string) => {
-   let text = message
-let pattern = /(.+?):\s*((?:\d+\)\s*[^0-9]+)*)/g;
-let match;
-let formattedText = "";
+   let text = "This is a list: 1) I'm good 2) I'm a winner 3) I'm a developer 4) I'm handsome";
+  let pattern = /(.+?):\s*((?:\d+\)\s*[^0-9]+)*)/g;
+  let match;
+  let formattedText = "";
 
-while ((match = pattern.exec(text)) !== null) {
-  let prefix = match[1];
-  let listItems = match[2].trim().split(/\d+\)\s*/).filter(Boolean);
-  let formattedList = listItems.map((item, index) => `${index + 1}) ${item.trim()}`).join('\n');
-  formattedText += `${prefix}:\n${formattedList}\n`;
-}
+  if (pattern.test(text)) {
+    while ((match = pattern.exec(text)) !== null) {
+      let prefix = match[1];
+      let listItems = match[2].trim().split(/\d+\)\s*/).filter(Boolean);
+      let formattedList = listItems.map((item, index) => `${index + 1}) ${item.trim()}`).join('\n');
+      formattedText += `${prefix}:\n${formattedList}\n`;
+    }
+  } else {
+    formattedText = text;
+  }
 
 return formattedText.trim()
   }
